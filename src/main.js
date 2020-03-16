@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import '@/permission' // 权限拦截模式
 import store from './store'
 import Vant from 'vant' // 引入vant组件库
 import 'vant/lib/index.css' // 引入vant组件的样式
