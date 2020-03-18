@@ -82,7 +82,9 @@ export default {
     // 登录校验
     async  login () {
       //  校验手机号和验证码
-      if (this.checkMobile() && this.checkCode()) {
+      const validateMobile = this.checkMobile()
+      const validateCode = this.checkCode()
+      if (validateMobile && validateCode) {
         // 如果两个检查都是true 就表示通过 了校验
         // 校验通过之后 要去调用接口 看看用户名和密码正确与否
         // axios 但是后端接口 不论你成功或者失败 它返回的状态码都是200
@@ -101,7 +103,8 @@ export default {
           this.$router.push(redirectUrl || '/') // 短路表达式
         } catch (error) {
           // 提示消息 提示用户 告诉用户登录失败
-          this.$notify({ message: '用户名或者验证码错误', duration: 800 })
+          // this.$notify({ message: '用户名或者验证码错误', duration: 800 })
+          this.$gnotify({ message: '用户名或者验证码错误' })
           // 这里我们要抖一个小机灵
         }
       }
