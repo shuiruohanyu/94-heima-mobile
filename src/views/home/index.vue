@@ -35,6 +35,7 @@ export default {
   components: {
     ArticleList
   },
+  // 组件中为什么data是 返回一个新对象
   data () {
     return {
       channels: [] // 接收频道数据
