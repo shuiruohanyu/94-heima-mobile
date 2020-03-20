@@ -43,8 +43,8 @@
                 <!-- 最原始方式 -->
                 <!-- <span class="close" v-if="$store.state.user.token"> -->
                <!-- 辅助函数的形式 -->
-               <!-- @事件名="逻辑处理"  点击事件中触发一个 显示反馈的事件-->
-               <span @click="$emit('showAction')" class="close" v-if="user.token">
+               <!-- @事件名="逻辑处理"  点击事件中触发一个 显示反馈的事件 传出 点击的文章id-->
+               <span @click="$emit('showAction', item.art_id.toString())" class="close" v-if="user.token">
                   <van-icon name="cross"></van-icon>
                 </span>
               </div>
