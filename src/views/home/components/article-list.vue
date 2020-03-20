@@ -39,7 +39,12 @@
                 <span>{{ item.comm_count }}评论</span>
                 <!-- 使用过滤器 -->
                 <span>{{ item.pubdate | relTime }}</span>
-                <span class="close">
+                <!-- 此叉号的显示 应该根据当前的登录状态来判断 如果登录了 可以显示 如果没有登录 不显示 -->
+                <!-- 最原始方式 -->
+                <!-- <span class="close" v-if="$store.state.user.token"> -->
+               <!-- 辅助函数的形式 -->
+               <!-- @事件名="逻辑处理"  点击事件中触发一个 显示反馈的事件-->
+               <span @click="$emit('showAction')" class="close" v-if="user.token">
                   <van-icon name="cross"></van-icon>
                 </span>
               </div>
@@ -53,8 +58,12 @@
 
 <script>
 // 引入获取文章的模块
+import { mapState } from 'vuex'
 import { getArticles } from '@/api/articles'
 export default {
+  computed: {
+    ...mapState(['user']) // 将user对象映射到计算属性中
+  },
   data () {
     return {
       successText: '', // 刷新成功的文本
