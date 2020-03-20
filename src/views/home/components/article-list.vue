@@ -60,7 +60,32 @@
 // 引入获取文章的模块
 import { mapState } from 'vuex'
 import { getArticles } from '@/api/articles'
+import eventBus from '@/utils/eventbus'
 export default {
+  // 初始化函数
+  created () {
+    // 监听删除文章事件
+    // 相当于 有多少个实例 就有多少个监听
+    // delAriticle  => 假如有四个实例  4个函数
+    eventBus.$on('delArticle', (artId, channelId) => {
+      // 这个位置 每个组件实例都会触发
+      // 这里要判断一下 传递过来的频道是否等于 自身的频道
+      if (channelId === this.channel_id) {
+        // 说明当前的这个article-list实例 就是我们要去删除数据的实例
+        const index = this.articles.findIndex(item => item.art_id.toString() === artId)
+        // 通过id 查询对应的文章数据所在的下标
+        if (index > -1) {
+          // 因为下标从0开始 所以应该大于-1
+          this.articles.splice(index, 1) // 删除对应下标的数据
+        }
+        // 但是 如果你一直删除 就会将 列表数据都删光 并不会触发 load事件
+        if (this.articles.length === 0) {
+          //  说明你把数据给删光了
+          this.onLoad() // 手动的触发onload事件 给页面加数据
+        }
+      }
+    })
+  },
   computed: {
     ...mapState(['user']) // 将user对象映射到计算属性中
   },
