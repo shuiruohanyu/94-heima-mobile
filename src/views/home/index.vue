@@ -16,7 +16,8 @@
             <!-- 有多少个tab 就有多少个 article-list  相当于多个article-list实例-->
             <!-- 需要将频道id传递给每一个列表组件  父 => 子 props -->
             <!-- 监听article-list触发的showAction事件 -->
-             <ArticleList @showAction="openAction" :channel_id="item.id"></ArticleList>
+            <!-- 监听谁触发的自定义的事件 就在谁的标签上写监听 -->
+             <ArticleList  @showAction="openAction" :channel_id="item.id"></ArticleList>
          </van-tab>
       </van-tabs>
       <!-- 在tabs下放置图标  编辑频道的图标 -->
@@ -27,7 +28,8 @@
       <!-- 放置一个弹层组件 -->
       <van-popup v-model="showMoreAction" style="width: 80%">
         <!-- 放置反馈的组件 -->
-        <MoreAction />
+        <!-- 应该在此位置监听 more-action触发的事件 -->
+        <MoreAction @dislike="dislikeArticle" />
       </van-popup>
   </div>
 </template>
@@ -37,6 +39,7 @@
 import ArticleList from './components/article-list'
 import MoreAction from './components/more-action'
 import { getMyChannels } from '@/api/channels'
+import { dislikeArticle } from '@/api/articles' // 不感兴趣
 export default {
   name: 'Home',
   components: {
@@ -61,6 +64,25 @@ export default {
       this.showMoreAction = true
       //  应该把id给存储起来
       this.articleId = artId
+    },
+    // 对文章不感兴趣
+    async dislikeArticle () {
+      // 调用不感兴趣的文章接口
+      try {
+        await dislikeArticle({
+          target: this.articleId // 不感兴趣的id
+        })
+        // await下方的逻辑 是 resolve(成功)之后 的
+        this.$gnotify({
+          type: 'success',
+          message: '操作成功'
+        })
+      } catch (error) {
+        // 默认是红色
+        this.$gnotify({
+          message: '操作失败'
+        })
+      }
     }
   },
   created () {
