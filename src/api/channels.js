@@ -77,3 +77,19 @@ export function delChannel (id) {
     }
   })
 }
+
+/*****
+ * 添加频道的方法
+ *
+ * @params  channel  是 { id: 1, name: 'c++' }
+ * *****/
+export function addChannel (channel) {
+  return new Promise(function (resolve, reject) {
+    // 根据当前的token判断使用哪个key
+    const key = store.state.user.token ? CACHE_CHANNEL_V : CACHE_CHANNEL_T // key根据当前的登录状态来判断
+    const channels = JSON.parse(localStorage.getItem(key)) // 转化数组 得到缓存中的数据
+    channels.push(channel) // 将添加的频道数据添加到队尾
+    localStorage.setItem(key, JSON.stringify(channels)) // 重新写入缓存
+    resolve() // 执行这一步 相当于 告诉我们使用promise的方法 执行成功了
+  })
+}
