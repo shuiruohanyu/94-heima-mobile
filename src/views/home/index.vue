@@ -43,7 +43,7 @@
             :activeIndex="activeIndex"
            @selectChannel="selectChannel"
             :channels="channels"  ></ChannelEdit>
-      </van-action-sheet>selectChannel
+      </van-action-sheet>
   </div>
 </template>
 
