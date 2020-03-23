@@ -37,6 +37,7 @@
 </template>
 
 <script>
+// import { getSuggestion } from '@/api/articles' // 引入获取建议的接口
 const key = 'hm-94-toutiao-history' // 此key用来作为 历史记录在本地缓存中的key
 export default {
   name: 'search',
@@ -46,6 +47,12 @@ export default {
       // 当data初始化的时候 会读取后面数据
       // ["葡萄干","动漫","马云"]
       historyList: JSON.parse(localStorage.getItem(key) || '[]')// 作为一个数据变量 接收 搜索历史记录
+    }
+  },
+  watch: {
+    q () {
+      // 我们要在这个位置 去请求接口
+      console.log(this.q)
     }
   },
   methods: {
