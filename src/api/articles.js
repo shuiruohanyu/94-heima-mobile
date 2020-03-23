@@ -47,3 +47,13 @@ export function getSuggestion (params) {
     params // query参数放置在 params中
   })
 }
+/****
+ * 搜索文章方法
+ *
+ * ***/
+export function searchArticle (params) {
+  return request({
+    url: '/search',
+    params // 关键词 及分页信息
+  })
+}
