@@ -62,6 +62,6 @@ export function searchArticle (params) {
  * ***/
 export function getArticleInfo (artId) {
   return request({
-    url: `/articles/${artId}` // 获取文章id
+    url: `/articles/${artId}` // 获取文章详情地址
   })
 }
