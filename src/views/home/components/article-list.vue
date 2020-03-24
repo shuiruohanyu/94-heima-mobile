@@ -14,7 +14,8 @@
         <!-- 循环内容 -->
         <van-cell-group>
           <!-- item.art_id 此时是一个大数字的对象 v-for 的key需要用字符串或者数字代理 -->
-          <van-cell v-for="item in articles" :key="item.art_id.toString()">
+          <!-- 给van-cell 加一个to属性 可以跳转到对应地址 -->
+          <van-cell :to="`/article?artId=${item.art_id.toString()}`" v-for="item in articles" :key="item.art_id.toString()">
             <!-- 放置元素 文章列表的循环项  无图  单图  三图 -->
             <div class="article_item">
               <!-- 标题 -->
@@ -44,7 +45,7 @@
                 <!-- <span class="close" v-if="$store.state.user.token"> -->
                <!-- 辅助函数的形式 -->
                <!-- @事件名="逻辑处理"  点击事件中触发一个 显示反馈的事件 传出 点击的文章id-->
-               <span @click="$emit('showAction', item.art_id.toString())" class="close" v-if="user.token">
+               <span @click.stop="$emit('showAction', item.art_id.toString())" class="close" v-if="user.token">
                   <van-icon name="cross"></van-icon>
                 </span>
               </div>

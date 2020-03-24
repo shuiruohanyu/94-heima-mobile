@@ -2,30 +2,48 @@
   <div class='container'>
     <van-nav-bar fixed title="文章详情" left-arrow @click-left="$router.back()" />
     <div class="detail">
-      <h3 class="title">文章的标题</h3>
+      <h3 class="title">{{ article.title }}</h3>
       <div class="author">
-        <van-image round width="1rem" height="1rem" fit="fill" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+        <van-image round width="1rem" height="1rem" fit="fill" :src="article.aut_photo" />
         <div class="text">
-          <p class="name">一阵清风</p>
-          <p class="time">两周内</p>
+          <p class="name">{{ article.aut_name }}</p>
+          <p class="time">{{ article.pubdate | relTime }}</p>
         </div>
-        <van-button round size="small" type="info">+ 关注</van-button>
+        <van-button round size="small" type="info">{{ article.is_followed ? '已关注' : '+ 关注'  }}</van-button>
       </div>
-      <div class="content">
-        <p>文章的内容</p>
+      <div class="content" v-html="article.content">
+        <!-- 文章内容 有标签 有属性 有样式 将标签设置到对应的元素中 v-html -->
       </div>
       <div class="zan">
-        <van-button round size="small" class="active" plain icon="like-o">点赞</van-button>
+        <!-- 需要genuine当前的态度 决定 谁拥有active -->
+        <van-button round size="small" :class="{active: article.attitude === 1}" plain icon="like-o">点赞</van-button>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <van-button round size="small" plain icon="delete">不喜欢</van-button>
+        <van-button round size="small" :class="{active: article.attitude === 0}" plain icon="delete">不喜欢</van-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getArticleInfo } from '@/api/articles'
 export default {
-
+  data  () {
+    return {
+      article: {} // 接收文章详情数据
+    }
+  },
+  methods: {
+    // 获取文章详情数据
+    async  getArticleInfo () {
+      // 获取地址参数
+      const { artId } = this.$route.query // 从当前路由信息对象读取 query参数
+      this.article = await getArticleInfo(artId) // 得到文章结果
+    }
+  },
+  created () {
+    // 钩子函数
+    this.getArticleInfo()
+  }
 }
 </script>
 
