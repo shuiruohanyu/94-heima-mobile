@@ -9,6 +9,7 @@
           height="1.5rem"
           fit="cover"
           round
+          @click="showPhoto=true"
           :src="user.photo"
         />
       </van-cell>
@@ -22,7 +23,7 @@
       <!-- 内容 -->
       <!-- 1 本地相册选择图片 -->
       <!-- 2 拍照 -->
-       <van-cell is-link title="本地相册选择图片"></van-cell>
+       <van-cell @click="openFileDialog" is-link title="本地相册选择图片"></van-cell>
        <van-cell is-link title="拍照"></van-cell>
     </van-popup>
     <!-- 放置昵称的弹层 -->
@@ -49,12 +50,16 @@
           @cancel="showBirthDay=false"
          />
     </van-popup>
+    <!-- 放置一个input:file 标签 用来上传图片  不能让人看到 隐藏掉 -->
+    <!-- vue中 可以通过 ref获取对象 -->
+    <!-- 如果选择了文件 就会触发input change事件 -->
+    <input @change="upload" ref="myFile" type="file" style="display:none" name="" id="">
   </div>
 </template>
 
 <script>
 import dayjs from 'dayjs'
-import { getUserProfile } from '@/api/user'
+import { getUserProfile, updatePhoto } from '@/api/user'
 export default {
   data () {
     return {
@@ -77,6 +82,10 @@ export default {
     }
   },
   methods: {
+    // 打开选择文件的对话框 触发点击input:file的动作
+    openFileDialog () {
+      this.$refs.myFile.click() // 触发input:file的click事件 触发事件就会弹出文件对话框
+    },
     // 封装方法
     async  getUserProfile () {
       this.user = await getUserProfile()
@@ -110,6 +119,15 @@ export default {
       // 拿到选择的日期  设置给生日  => date  => 字符串
       this.user.birthday = dayjs(this.currentDate).format('YYYY-MM-DD') // 将date类型转化成字符串
       this.showBirthDay = false // 关闭弹层
+    },
+    // 修改头像
+    async  upload (params) {
+      //  当选择 完头像之后 就可以修改头像
+      const data = new FormData()
+      data.append('photo', this.$refs.myFile.files[0]) // 第二个参数 是 选择的图片文件 选择图片文件
+      const result = await updatePhoto(data) // 上传头像
+      this.user.photo = result.photo // 把成功上传的头像地址设置给当前data中的数据
+      this.showPhoto = false // 关闭头像弹层
     }
   },
   created () {
