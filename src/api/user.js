@@ -39,11 +39,21 @@ export function unfollowUser (autid) {
   })
 }
 /***
- * 获取用户自己的个人信息
+ * 获取用户自己的个人信息 粉丝 数 /. 文章数
  * ***/
 
 export function getUserInfo () {
   return request({
     url: '/user'
+  })
+}
+
+/****
+ * 获取用户的个人资料
+ *
+ * ***/
+export function getUserProfile () {
+  return request({
+    url: '/user/profile'
   })
 }
