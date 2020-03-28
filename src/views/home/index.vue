@@ -1,7 +1,7 @@
 <template>
   <div class="container">
       <!-- 放置tabs组件  默认绑定激活页签-->
-      <van-tabs v-model="activeIndex">
+      <van-tabs v-model="activeIndex" @change="changeTab">
          <!-- 内部需要放置子 标签  title值为当前显示的内容-->
          <!-- van-tab是vant组件的样式  -->
          <!-- 拿到channels数据之后吧 应该做什么 -->
@@ -71,6 +71,12 @@ export default {
     }
   },
   methods: {
+    // 切换页签事件
+    changeTab () {
+      // 切换页签时 我要广播一个消息  让对应的页签中的文章列表  去滚动 滚动条
+      // 广播中传出一个参数 传当前谁被激活了 传出当前激活索引的 id
+      eventbus.$emit('changeTab', this.channels[this.activeIndex].id)
+    },
     // 删除频道的方法
     async delChannel (id) {
       // 此时应该先调用api
