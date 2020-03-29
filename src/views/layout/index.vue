@@ -9,6 +9,7 @@
     <div class="my-wrapper" :class="{noTop: $route.path === '/user'}">
     <!-- 直接缓存二级路由容器  直接使用keep-alive组件包裹 容器 -->
     <keep-alive>
+      <!-- 二级路由所有的都被缓存 -->
       <!-- 一旦被包裹 路由容器里的组件就不会被销毁  -->
        <router-view></router-view>
     </keep-alive>

@@ -21,9 +21,14 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Layout, // 布局组件 一级路由
+
     children: [{
       path: '', // 如果path什么都不写 默认就是二级路由的默认组件
-      component: home
+      component: home,
+      // meta中可以放置当前路由的信息 根据此信息来进行相关的判断
+      // meta是固定写法 里面是可以自定义的属性
+      meta: { isAlive: true } // 是否缓存组件实例 } // 路由元信息
+      // 如果一级路由存在默认的二级路由 那么meta属性应该写在二级路由的对象上
     }, {
       path: '/question',
       component: question // 问答组件
