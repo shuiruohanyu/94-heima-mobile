@@ -37,6 +37,7 @@
     "less-loader": "^5.0.0",
     "lint-staged": "^9.5.0",
     "postcss-pxtorem": "^5.1.1",
+    "terser-webpack-plugin": "^2.3.5",
     "vue-template-compiler": "^2.6.11"
   },
   "gitHooks": {
